@@ -10,6 +10,7 @@ required for alignment of sample.
 
 
 Installation
+
 	1. Install elastix (http://elastix.isi.uu.nl/)
 		(set PATH or add line to elastix.m: comm = '"C:\Program Files\elastix_v4.7\elastix" ';)
 	2. Install elastix wrapper (https://github.com/rcasero/gerardus)
@@ -18,6 +19,7 @@ Installation
 
 
 App pseudocode
+
 	1. Open single-plane target image (2D or 3D Moving)
 	2. Open reference Z-stack (2D or 3D Fixed)
 	3. Run elastix (rigid registration mode) to either: 
@@ -27,6 +29,7 @@ App pseudocode
 	5. Present parameters for adjustment of microscope/sample position.
 
 Later features to work on
+
 	1. Automatic positioning for Scanimage/Prariescan
 	2. Tilt adjustment (3D to 3D fitting) (done in v1.1)
 	3. Multi-resolution image adaptation
@@ -37,7 +40,7 @@ Later features to work on
 Updates
     v1.1
     -Added 3D-to-3D registration
-    -Added save_tif.m for simple tif saving.
+-Added save_tif.m for simple tif saving.
     -Fixed bug with Elastix parameter file location
     -Optimized Elastix parameters
 
