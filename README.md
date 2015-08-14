@@ -9,7 +9,7 @@ accurate registration of subsequent day images, and guide the movement/rotation
 required for alignment of sample.
 
 
-Installation
+Installation:
 
 	1. Install elastix (http://elastix.isi.uu.nl/)
 		(set PATH or add line to elastix.m: comm = '"C:\Program Files\elastix_v4.7\elastix" ';)
@@ -18,7 +18,7 @@ Installation
 	3. Install findposition (add to MATLAB path)
 
 
-App pseudocode
+App pseudocode:
 
 	1. Open single-plane target image (2D or 3D Moving)
 	2. Open reference Z-stack (2D or 3D Fixed)
@@ -28,7 +28,7 @@ App pseudocode
 	4. Check validity of registration and visualize registration.
 	5. Present parameters for adjustment of microscope/sample position.
 
-Later features to work on
+Later features to work on:
 
 	1. Automatic positioning for Scanimage/Prariescan
 	2. Tilt adjustment (3D to 3D fitting) (done in v1.1)
@@ -37,12 +37,13 @@ Later features to work on
     5. Automatic image header reading - for dimension/channel/XYZ spacing information etc.
     6. Option to use a subvolume of reference image.
 
-Updates
-    v1.1
-    -Added 3D-to-3D registration
+Updates:
+
+	v1.1
+	-Added 3D-to-3D registration
 	-Added save_tif.m for simple tif saving.
-    -Fixed bug with Elastix parameter file location
-    -Optimized Elastix parameters
+	-Fixed bug with Elastix parameter file location
+	-Optimized Elastix parameters
 
 
 
