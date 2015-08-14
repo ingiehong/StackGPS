@@ -40,7 +40,7 @@ Later features to work on
 Updates
     v1.1
     -Added 3D-to-3D registration
--Added save_tif.m for simple tif saving.
+	-Added save_tif.m for simple tif saving.
     -Fixed bug with Elastix parameter file location
     -Optimized Elastix parameters
 
