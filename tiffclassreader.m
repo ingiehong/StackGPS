@@ -30,7 +30,7 @@ else
     filelist=ls([pathstr '\ZSeries*_Ch2_*']);
     
     imageStack=[];
-    numberOfImages = length(filelist);
+    numberOfImages = size(filelist,1);
     for k = 1:numberOfImages
         currentImage = imread([pathstr '\' filelist(k,:)]);
         imageStack(:,:,k) = currentImage;
