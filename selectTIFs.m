@@ -8,7 +8,7 @@ else
     error('No moving file.');
 end
 
-[fixedFileName PathName] = uigetfile('*.tif;*.tiff','Select the reference fixed image');
+[fixedFileName PathName] = uigetfile('*.tif;*.tiff','Select the reference fixed image', [PathName movingFileName] );
 
 if ~isequal(fixedFileName,0)
       fixed_image = tiffclassreader(fullfile(PathName,fixedFileName));
