@@ -17,3 +17,7 @@ if ~isequal(fixedFileName,0)
 end
 
 %clear PathName
+
+% Image smoothing for noisy images
+% moving_image = imgaussfilt(moving_image,2);
+% fixed_image = imgaussfilt(fixed_image,2);

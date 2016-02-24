@@ -11,7 +11,8 @@ img(:,:,:,1) = img1;
 img(:,:,:,2) = img2;
 
 img = img/max(img(:));
+figure;
 for i = 1:pz
-image(squeeze(img(:,:,i,:))); axis image; pause
+    image(squeeze(img(:,:,i,:))); axis image; pause
 end
 

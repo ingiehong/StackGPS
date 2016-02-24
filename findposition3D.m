@@ -23,7 +23,7 @@ title('Front view')
 
 % Present transformation parameters
 %min_fit_i
-disp([num2str(round(10*transformation(6))/10) 'um shift between moving and fixed reference image corresponds to best registration.' ]);
+disp([num2str(round(10*transformation(6))/10) 'um Z-shift between moving and fixed reference image corresponds to best registration.' ]);
 % %transformation(min_fit_i, :)
 disp(['Transformation X-Y-Z (um): ' num2str(round(10*transformation(4:6))/10)]);
 disp(['Euler Angles (deg, X-Y-Z axis): ' num2str(round(-10*transformation(1:3)*360/pi/2)/10)])
