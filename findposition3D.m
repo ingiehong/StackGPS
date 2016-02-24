@@ -3,8 +3,8 @@
 % 
 
 % We should implement image header information import for RESOLUTION info
-fixed_image = scimat_im2scimat(reshape(fixed_image, size(fixed_image, 1), size(fixed_image, 2), size(fixed_image, 3), 1, size(fixed_image,4)), [0.9 0.9 2] );
-moving_image = scimat_im2scimat(reshape(moving_image, size(moving_image, 1), size(moving_image, 2), size(moving_image, 3), 1, size(moving_image,4)), [0.9 0.9 2]);
+fixed_image = scimat_im2scimat(reshape(fixed_image, size(fixed_image, 1), size(fixed_image, 2), size(fixed_image, 3), 1, size(fixed_image,4)), [389/512 389/512 1] );
+moving_image = scimat_im2scimat(reshape(moving_image, size(moving_image, 1), size(moving_image, 2), size(moving_image, 3), 1, size(moving_image,4)), [389/512 389/512 1]);
 % Execute registration through Elastix wrapper from Oxford
 disp('3D Registration initiated...')
 [transformation, fit, registered_image] = reg3D(fixed_image, moving_image);
