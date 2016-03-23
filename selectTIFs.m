@@ -4,6 +4,7 @@
 
 if ~isequal(movingFileName,0)
       moving_image = tiffclassreader(fullfile(PathName,movingFileName));
+      moving_image = highpassfilt3(moving_image); 
 else
     error('No moving file.');
 end
@@ -12,6 +13,7 @@ end
 
 if ~isequal(fixedFileName,0)
       fixed_image = tiffclassreader(fullfile(PathName,fixedFileName));
+      fixed_image = highpassfilt3(fixed_image);
       else
     error('No target fixed image file.');
 end
