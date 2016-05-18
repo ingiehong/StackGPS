@@ -1,3 +1,6 @@
+% Suppress errors related to Scanimage tif files
+warning('off','MATLAB:imagesci:tiffmexutils:libtiffWarning');
+
 % GUI interface for selection of 2 tif files. 
 
 [movingFileName PathName] = uigetfile('*.tif;*.tiff','Select the current moving image');
@@ -11,11 +14,17 @@ end
 
 [fixedFileName PathName] = uigetfile('*.tif;*.tiff','Select the reference fixed image', [PathName movingFileName] );
 
+reuse_fixed=false;
 if ~isequal(fixedFileName,0)
       fixed_image = tiffclassreader(fullfile(PathName,fixedFileName));
       fixed_image = highpassfilt3(fixed_image);
-      else
-    error('No target fixed image file.');
+else
+    if exist('fixed_image','var')
+        disp('No fixed image selected, proceeding with previous fixed image.')
+        reuse_fixed=true;
+    else
+        error('No target fixed image file.');
+    end
 end
 
 %clear PathName
