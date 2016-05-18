@@ -7,7 +7,7 @@ warning('off','MATLAB:imagesci:tiffmexutils:libtiffWarning');
 
 if ~isequal(movingFileName,0)
       moving_image = tiffclassreader(fullfile(PathName,movingFileName));
-      moving_image = highpassfilt3(moving_image); 
+      moving_image = highpassfilt3(moving_image,50); 
 else
     error('No moving file.');
 end
@@ -17,7 +17,7 @@ end
 reuse_fixed=false;
 if ~isequal(fixedFileName,0)
       fixed_image = tiffclassreader(fullfile(PathName,fixedFileName));
-      fixed_image = highpassfilt3(fixed_image);
+      fixed_image = highpassfilt3(fixed_image,50);
 else
     if exist('fixed_image','var')
         disp('No fixed image selected, proceeding with previous fixed image.')

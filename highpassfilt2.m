@@ -1,4 +1,4 @@
-function filtered_image = highpassfilt3(raw_image,sigma) 
+function filtered_image = highpassfilt2(raw_image,sigma) 
 % Highpass-filters 3d images by subtracting a gaussian filtered image
 % 
 % 
@@ -7,6 +7,6 @@ function filtered_image = highpassfilt3(raw_image,sigma)
 %
 % Ingie 160321
 
-smoothed_image = imgaussfilt3(raw_image,sigma);
+smoothed_image = imgaussfilt(raw_image,sigma);
 filtered_image = int16(raw_image)- int16(smoothed_image);
 filtered_image = filtered_image - min(filtered_image(:));
