@@ -145,7 +145,7 @@
 // 1 gives worse accuracy (linear interpolation)
 // 0 gives worst accuracy, but is appropriate for binary images
 // (masks, segmentations); equivalent to nearest neighbor interpolation.
-(FinalBSplineInterpolationOrder 3)
+(FinalBSplineInterpolationOrder 1)
 
 //Default pixel value for pixels that come from outside the picture:
 (DefaultPixelValue 0)
