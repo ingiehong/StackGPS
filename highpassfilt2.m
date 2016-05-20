@@ -5,7 +5,8 @@ function filtered_image = highpassfilt2(raw_image,sigma)
 % raw_image: uint16 3d image
 % sigma: gaussian filter kernel width
 %
-% Ingie 160321
+%
+% Ingie Hong, Johns Hopkins Medical Institute, 2016
 
 smoothed_image = imgaussfilt(raw_image,sigma);
 filtered_image = int16(raw_image)- int16(smoothed_image);

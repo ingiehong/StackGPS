@@ -1,3 +1,5 @@
+% Not used anymore
+
 % Suppress errors related to Scanimage tif files
 warning('off','MATLAB:imagesci:tiffmexutils:libtiffWarning');
 
