@@ -8,11 +8,13 @@ set(gcf,'Units','normal')
 for i=1:size(registered_image,3)
     subplot(1,2,1)
     set(gca,'Position',[0 0 0.5 1])
-    imshowpair(fixed_image.data(:,:,i),registered_image(:,:,i)); %, 'montage')
+    imshowpair(fixed_image(:,:,i),registered_image(:,:,i)); %, 'montage')
     subplot(1,2,2)
     set(gca,'Position',[0.5 0 0.5 1])
-    imshowpair(fixed_image.data(:,:,i),registered_image(:,:,i), 'diff'); %, 'montage')
+    imshowpair(fixed_image(:,:,i),registered_image(:,:,i), 'diff'); %, 'montage')
     pause;
 end
 
+clear i;
+clear scrsz;
 close(gcf)

@@ -40,7 +40,7 @@ if nargin < 2 || isempty(fixed_image)
     end
     
 else 
-    disp('Proceeding with provided fixed image.')
+    disp('Proceeding with provided fixed image. No high pass filtering applied to fixed image.')
 end
 
 % check for RESOLUTION info, if absent set as default
