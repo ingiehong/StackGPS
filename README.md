@@ -39,8 +39,8 @@ required for alignment of sample.
 	2. Tilt adjustment (3D to 3D fitting) (done in v1.1)
 	3. Multi-resolution image adaptation (done in v1.1)
 	4. Plots for fit
-        5. Automatic image header reading - for dimension/channel/XYZ spacing information etc.
-        6. Option to use a subvolume of reference image.
+	5. Automatic image header reading - for dimension/channel/XYZ spacing information etc.
+	6. Option to use a subvolume of reference image.
 
 **Updates**:
 
