@@ -6,7 +6,7 @@ function [transformation, fit, registered_image] = reg2D(fixed, target)
 %tic
 [execution_path,~,~] = fileparts( mfilename('fullpath') );
 options.verbose=false;
-[t, immreg, iterinfo] = elastix(['"' execution_path '\Parameters_Rigid_2Dto2D.txt"'], fixed, target, options);
+[t, immreg, iterinfo] = elastix(['' execution_path '\Parameters_Rigid_2Dto2D.txt'], fixed, target, options);
 %elapsed_time=toc;
 
 transformation=t.TransformParameters;
