@@ -2,11 +2,10 @@ function imageStack = tiffclassreader(fname, channels)
 % Simple TIF reader for Scanimage or Prarie 2P tif/tiff images/stacks
 %
 % fname = 'RR.tif';
-% 
+% channels: if set as 0 then all channels are returned, otherwise channels
+%           defined are returned
 %
 % Ingie Hong, Johns Hopkins Medical Institute, 2016
-
-
 
 if isempty( regexp(fname,'ZSeries') ) || isempty( regexp(fname,'_Ch') )
 
@@ -43,7 +42,7 @@ if isempty( regexp(fname,'ZSeries') ) || isempty( regexp(fname,'_Ch') )
                 currentImage=currentImage';
             end
 
-            imageStack(:,:,k) = currentImage';
+            imageStack(:,:,k) = currentImage;
         end 
     end
 else

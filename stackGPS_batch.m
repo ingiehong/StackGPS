@@ -33,7 +33,7 @@ end
 
 if nargin < 1 || isempty(moving_image) 
     [movingFileName PathName] = uigetfile('*.tif;*.tiff','Select the current moving image', [PathName fixedFileName] , 'MultiSelect', 'on');
-
+    if iscell(movingFileName)==0; movingFileName={movingFileName}; end
     if ~isequal(movingFileName,0)
         for i=1:size(movingFileName,2)
           moving_image{i} = tiffclassreader(fullfile(PathName,movingFileName{i}),channels);

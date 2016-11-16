@@ -1,4 +1,4 @@
-function [registered_image, moving_image, fixed_image, transformation, fit, movingFileName, fixedFileName ] = stackGPS( moving_image, fixed_image, moving_res, fixed_res)
+function [ registered_image, moving_image, fixed_image, transformation, fit, movingFileName, fixedFileName ] = stackGPS( moving_image, fixed_image, moving_res, fixed_res)
 % Load two image files, (2D->2D, pseudo2D->3D, or 3D to 3D) and align them using rigid
 % transformation. Give X,Y,rotational offsets to aid physical adjustment of specimen to same position.
 %
@@ -14,13 +14,17 @@ function [registered_image, moving_image, fixed_image, transformation, fit, movi
 % Suppress errors related to Scanimage tif files
 warning('off','MATLAB:imagesci:tiffmexutils:libtiffWarning');
 
+PathName='';
+movingFileName='';
+fixedFileName='';
+
 % GUI interface for selection of 2 tif files. 
 if nargin < 1 || isempty(moving_image) 
     [movingFileName PathName] = uigetfile('*.tif;*.tiff','Select the current moving image');
 
     if ~isequal(movingFileName,0)
           moving_image = tiffclassreader(fullfile(PathName,movingFileName));
-          moving_image = highpassfilt3(moving_image,50);  % highpass filtering to allow registration based on local features
+          %moving_image = highpassfilt3(moving_image,50);  % highpass filtering to allow registration based on local features
     else
         error('No moving file.');
     end
@@ -29,12 +33,13 @@ else
     disp('Proceeding with provided moving image.')
 end
 
-if nargin < 2 || isempty(fixed_image) 
+if nargin < 2 || isempty(fixed_image)
+    
     [fixedFileName PathName] = uigetfile('*.tif;*.tiff','Select the reference fixed image', [PathName movingFileName] );
 
     if ~isequal(fixedFileName,0)
         fixed_image = tiffclassreader(fullfile(PathName,fixedFileName));
-        fixed_image = highpassfilt3(fixed_image,50);   % highpass filtering to allow registration based on local features
+        %fixed_image = highpassfilt3(fixed_image,50);   % highpass filtering to allow registration based on local features
     else
         error('No target fixed image file.');
     end
