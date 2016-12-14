@@ -1,6 +1,6 @@
 function [ registered_image, moving_image, fixed_image, transformation, fit, movingFileName, fixedFileName ] = stackGPS( moving_image, fixed_image, moving_res, fixed_res)
 % Load two image files, (2D->2D, pseudo2D->3D, or 3D to 3D) and align them using rigid
-% transformation. Give X,Y,rotational offsets to aid physical adjustment of specimen to same position.
+% transformation. Output X,Y,Z,rotational offsets to aid physical adjustment of specimen to same position.
 %
 %   moving_image and fixed_image are image-containing matrices
 %   moving_res and fixed_res are vectors with the physical voxel size
