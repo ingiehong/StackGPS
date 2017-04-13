@@ -11,10 +11,10 @@ required for alignment of sample.
 
 **Installation**:
 
-	1. Install elastix (http://elastix.isi.uu.nl/)
-		(set PATH or add line 244 to elastix.m: comm = '"C:\Program Files\elastix_v4.8\elastix" ';)
+	1. Install elastix v4.8 (http://elastix.isi.uu.nl/)
+		(set PATH or edit line 244 to elastix.m: comm = '"C:\Program Files\elastix_v4.8\elastix" ';)
 	2. Install elastix wrapper (https://github.com/rcasero/gerardus)
-		(add to ElastixToolbox and FileFormatToolbox to MATLAB path)
+		(add ElastixToolbox and FileFormatToolbox to MATLAB path)
 	3. Install findposition (add to MATLAB path)
 
 **Getting Started**:
