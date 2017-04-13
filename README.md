@@ -15,7 +15,7 @@ required for alignment of sample.
 		(set PATH or edit line 244 to elastix.m: comm = '"C:\Program Files\elastix_v4.8\elastix" ';)
 	2. Install elastix wrapper (https://github.com/rcasero/gerardus)
 		(add ElastixToolbox and FileFormatToolbox to MATLAB path)
-	3. Install findposition (add to MATLAB path)
+	3. Install StackGPS (add to MATLAB path)
 
 **Getting Started**:
 
