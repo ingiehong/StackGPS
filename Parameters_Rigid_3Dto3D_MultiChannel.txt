@@ -11,8 +11,8 @@
 // images themselves.
 // This setting can be changed to "short" to save some memory
 // in case of very large 3D images.
-//(FixedInternalImagePixelType "float")
-//(MovingInternalImagePixelType "float")
+(FixedInternalImagePixelType "float")
+(MovingInternalImagePixelType "float")
 
 // The dimensions of the fixed and moving image
 // NB: This has to be specified by the user. The dimension of
@@ -33,14 +33,15 @@
 
 // The following components should usually be left as they are:
 (Registration "MultiMetricMultiResolutionRegistration")
-(Interpolator "BSplineInterpolator")
-(ResampleInterpolator "FinalBSplineInterpolator")
-(Resampler "DefaultResampler")
+(Interpolator "BSplineInterpolator" "BSplineInterpolator")
+(ResampleInterpolator "FinalBSplineInterpolator" "FinalBSplineInterpolator")
+(Resampler "DefaultResampler" "DefaultResampler")
+
 
 // These may be changed to Fixed/MovingSmoothingImagePyramid.
 // See the manual.
-(FixedImagePyramid "FixedRecursiveImagePyramid")
-(MovingImagePyramid "MovingRecursiveImagePyramid")
+(FixedImagePyramid "FixedRecursiveImagePyramid" "FixedRecursiveImagePyramid")
+(MovingImagePyramid "MovingRecursiveImagePyramid" "MovingRecursiveImagePyramid")
 
 // The following components are most important:
 // The optimizer AdaptiveStochasticGradientDescent (ASGD) works
@@ -48,7 +49,7 @@
 // and need to be chosen careful for each application. See manual.
 (Optimizer "AdaptiveStochasticGradientDescent")
 (Transform "EulerTransform")
-(Metric "AdvancedMattesMutualInformation")
+(Metric "AdvancedMattesMutualInformation" "AdvancedMattesMutualInformation")
 
 // ***************** Transformation **************************
 
@@ -129,7 +130,8 @@
 // them randomly. See the manual for information on other sampling
 // strategies.
 (NewSamplesEveryIteration "true")
-(ImageSampler "Random")
+//(ImageSampler "Random")
+(ImageSampler "RandomCoordinate" "RandomCoordinate")
 
 // ************* Interpolation and Resampling ****************
 
@@ -154,7 +156,7 @@
 // You can save some time by setting this to false, if you are
 // only interested in the final (nonrigidly) deformed moving image
 // for example.
-(WriteResultImage "true")
+(WriteResultImage "true" "true")
 
 // The pixel type and format of the resulting deformed moving image
 (ResultImagePixelType "short")

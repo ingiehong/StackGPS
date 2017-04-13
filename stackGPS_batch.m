@@ -58,16 +58,19 @@ if nargin < 4 || isempty(fixed_res)
 end
 
 mkdir([ PathName '\Registered'] )
-save_tif(fixed_image, [ PathName '\Registered\' fixedFileName] )
     
 %if ndims(fixed_image)==3 && ndims(moving_image)==3
 for i=1:size(movingFileName,2)
-    if i==1||i==7||i==8
-        [registered_image{i}, transformation, fit] = findposition3D( moving_image{i}(:,:,1:200) , fixed_image, moving_res, fixed_res); % Register 3D->3D to find best matching transformation and visualize
-    else
+%     if i==1||i==7||i==8
+%         [registered_image{i}, transformation, fit] = findposition3D( moving_image{i}(:,:,1:200) , fixed_image, moving_res, fixed_res); % Register 3D->3D to find best matching transformation and visualize
+%     else
         [registered_image{i}, transformation, fit] = findposition3D( moving_image{i}, fixed_image, moving_res, fixed_res); % Register 3D->3D to find best matching transformation and visualize
-    end
-    visualize_tranformation(registered_image{i});
+%     end
+    visualize_tranformation(registered_image{i}(:,:,:,1));
+    drawnow;
     %verbalize_tranformation(transformation);
-    save_tif(uint16(registered_image{i}), [ PathName '\Registered\' movingFileName{i}] )
+    %save_tif(uint16(registered_image{i}), [ PathName '\Registered\' movingFileName{i}] )
+    save_tif(permute( uint16(registered_image{i}), [1 2 5 3 4]), [ PathName '\Registered\' movingFileName{i}] ) % Save the moving images
 end
+
+save_tif(permute(fixed_image , [1 2 5 3 4]) , [ PathName '\Registered\' fixedFileName] ) % Save the fixed image
