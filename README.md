@@ -1,5 +1,7 @@
-StackGPS v1.1 - Ingie Hong
-==========================
+# #
+# StackGPS v1.2 #
+### Ingie Hong @ Johns Hopkins Medical Institute, 2017 ###
+========================== 
 
 For the rigid registration of 2D or 3D image stacks and visualization of the results.
 Particularly useful when trying to keep a microscopic sample in identical 
@@ -16,7 +18,7 @@ required for alignment of the sample.
 		(add ElastixToolbox and FileFormatToolbox to MATLAB path)
                 (set PATH or edit line 244 to elastix.m: comm = '"C:\Program Files\elastix_v4.8\elastix" ';)
 	3. Install StackGPS (add to MATLAB path)
-        4. If you need Scanimage TIF support, download scim_tif.m from a release. (v3.8 supported)
+	4. If you need Scanimage TIF support, download scim_openTif.m from a release. (v3.8 supported)
 
 **Getting Started**:
 
@@ -46,9 +48,10 @@ required for alignment of the sample.
         7. Support for multi-channel image registration (done in v1.2)
 
 **Updates**:
-        v1.2 
-        -Added batch registration mode
-        -Added demo scripts and more documentation.
+
+	v1.2 
+	-Added batch registration mode
+	-Added demo scripts and more documentation.
 
 	v1.1
 	-Added 3D-to-3D registration
