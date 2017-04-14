@@ -3,25 +3,27 @@ StackGPS v1.1 - Ingie Hong
 
 For the rigid registration of 2D or 3D image stacks and visualization of the results.
 Particularly useful when trying to keep a microscopic sample in identical 
-orientation accross multiple days, as in in vivo two-photon imaging.
-A reference image (either 2D or 3D z-stack) taken on first day will allow 
+orientation across multiple days, as in *in vivo* two-photon imaging.
+A reference image (either 2D or 3D z-stack) taken on the first day will allow 
 accurate registration of subsequent day images, and guide the movement/rotation
-required for alignment of sample.
+required for alignment of the sample.
 
 
 **Installation**:
 
 	1. Install elastix v4.8 (http://elastix.isi.uu.nl/)
-		(set PATH or edit line 244 to elastix.m: comm = '"C:\Program Files\elastix_v4.8\elastix" ';)
-	2. Install elastix wrapper (https://github.com/rcasero/gerardus)
+	2. Install elastix wrapper (https://github.com/rcasero/gerardus but please use fork https://github.com/ingiehong/gerardus.git for compatibility)
 		(add ElastixToolbox and FileFormatToolbox to MATLAB path)
+                (set PATH or edit line 244 to elastix.m: comm = '"C:\Program Files\elastix_v4.8\elastix" ';)
 	3. Install StackGPS (add to MATLAB path)
+        4. If you need Scanimage TIF support, download scim_tif.m from a release. (v3.8 supported)
 
 **Getting Started**:
 
         1. Use demo_startGPS.m to quickly start aligning images.
         2. compare3D allows easy visualization of the 3D alignment.
         3. When a reference image is already loaded, use demo_continueGPS.m to load just a moving image.
+        4. For batch registration of multiple moving images to one fixed image, start with demo_stackGPS_batch.m.
         
 **App pseudocode**:
 
@@ -40,9 +42,13 @@ required for alignment of sample.
 	3. Multi-resolution image adaptation (done in v1.1)
 	4. Plots for fit
 	5. Automatic image header reading - for dimension/channel/XYZ spacing information etc.
-	6. Option to use a subvolume of reference image.
+	6. Option to use a subvolume of the reference image.
+        7. Support for multi-channel image registration (done in v1.2)
 
 **Updates**:
+        v1.2 
+        -Added batch registration mode
+        -Added demo scripts and more documentation.
 
 	v1.1
 	-Added 3D-to-3D registration
