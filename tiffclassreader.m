@@ -38,9 +38,9 @@ if isempty( regexp(fname,'ZSeries') ) || isempty( regexp(fname,'_Ch') )
                 currentImage=rgb2gray(currentImage);
             end
             % For some reason, widefield images are transposed
-            if info(1).Width == size(currentImage,2)
-                currentImage=currentImage';
-            end
+%             if info(1).Width == size(currentImage,2)
+%                 currentImage=currentImage';
+%             end
 
             imageStack(:,:,k) = currentImage;
         end 
