@@ -13,6 +13,9 @@ img(:,:,:,2) = img2;
 img = img/max(img(:));
 figure;
 for i = 1:pz
-    image(squeeze(img(:,:,i,:))); axis image; pause
+    %image(squeeze(img(:,:,i,:))); 
+    imshowpair(img(:,:,i,1),img(:,:,i,2),'falsecolor');
+    title(num2str(i))
+    axis image; pause
 end
 

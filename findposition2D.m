@@ -1,3 +1,4 @@
+function [registered_image, transformation, fit] = findposition2D( moving_image, fixed_image)
 % findposition2D.m : matches moving_image (2D) to individual stacks of 
 % fixed_image (2D or 3D) with rigid registration and finds best fit &
 % transformation.

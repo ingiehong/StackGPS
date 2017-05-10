@@ -1,13 +1,14 @@
-function imageStack = tiffclassreader(fname)
+function imageStack = tiffclassreader(fname, channels)
 % Simple TIF reader for Scanimage or Prarie 2P tif/tiff images/stacks
-
-%fname = 'RR.tif';
-%regexp(fname,'ZSeries')
+%
+% fname = 'RR.tif';
+% channels: if set as 0 then all channels are returned, otherwise channels
+%           defined are returned
+%
+% Ingie Hong, Johns Hopkins Medical Institute, 2016
 
 if isempty( regexp(fname,'ZSeries') ) || isempty( regexp(fname,'_Ch') )
 
-    
-    
     % for generic multi-stack tiffs
     info = imfinfo(fname);
     numberOfImages = length(info);
@@ -18,8 +19,13 @@ if isempty( regexp(fname,'ZSeries') ) || isempty( regexp(fname,'_Ch') )
         [header,imageStack] = scim_openTif(fname); % For Scanimage 3.X files, open with scim_openTif
         
         if ndims(imageStack)>3 
-            disp('Multicolor (or timelapse) image detected. Using first color only.')
-            imageStack=squeeze(imageStack(:,:,1,:));
+            if nargin<2
+                disp('Multicolor (or timelapse) image detected. Using first color only.')
+                imageStack=squeeze(imageStack(:,:,1,:)); 
+            else
+                if channels == 0; channels = 1:size(imageStack,3);end; % Load all channels
+                imageStack=permute(imageStack(:,:,channels,:),[1 2 4 5 3]); % permute to fit scimat specification
+            end
         end
     else
         % For other TIFs, read with MATLAB TIFFclassreader
@@ -32,11 +38,11 @@ if isempty( regexp(fname,'ZSeries') ) || isempty( regexp(fname,'_Ch') )
                 currentImage=rgb2gray(currentImage);
             end
             % For some reason, widefield images are transposed
-            if info(1).Width == size(currentImage,2)
-                currentImage=currentImage';
-            end
+%             if info(1).Width == size(currentImage,2)
+%                 currentImage=currentImage';
+%             end
 
-            imageStack(:,:,k) = currentImage';
+            imageStack(:,:,k) = currentImage;
         end 
     end
 else
