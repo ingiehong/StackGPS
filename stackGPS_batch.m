@@ -6,7 +6,7 @@ function [registered_image, moving_image, fixed_image, transformation, fit, movi
 %   moving_res and fixed_res are vectors with the physical voxel size
 %       By default, RES is 1.0 in each dimension. ex) [389/512 389/512 1] 
 %   channels is the specific channel set to be used for registration 
-%       ex) [1 2] for two channels, default all
+%       ex) [1 2] for two channels, default all (0)
 %
 % Ingie Hong, Johns Hopkins Medical Institute, 2016
 
@@ -22,7 +22,7 @@ if nargin < 2 || isempty(fixed_image)
     [fixedFileName PathName] = uigetfile('*.tif;*.tiff','Select the reference fixed image');
 
     if ~isequal(fixedFileName,0)
-        fixed_image = uint16( tiffclassreader(fullfile(PathName,fixedFileName),channels)/2);
+        fixed_image = tiffclassreader(fullfile(PathName,fixedFileName),channels);
         %fixed_image = highpassfilt3(fixed_image,50);
     else
         error('No target fixed image file.');
@@ -37,7 +37,7 @@ if nargin < 1 || isempty(moving_image)
     if iscell(movingFileName)==0; movingFileName={movingFileName}; end
     if ~isequal(movingFileName,0)
         for i=1:size(movingFileName,2)
-          moving_image{i} =uint16( tiffclassreader(fullfile(PathName,movingFileName{i}),channels)/2 );
+          moving_image{i} = tiffclassreader(fullfile(PathName,movingFileName{i}),channels);
           %moving_image = highpassfilt3(moving_image,50); 
         end
     else
@@ -51,10 +51,10 @@ end
 
 % check for RESOLUTION info, if absent set as default
 if nargin < 3 || isempty(moving_res) 
-    moving_res=[1 1 1];
+    moving_res=ones(1,size(moving_image{1},5)+2 );
 end
 if nargin < 4 || isempty(fixed_res) 
-    fixed_res=[1 1 1];
+    fixed_res=ones(1,size(fixed_image{1},5)+2);
 end
 
 mkdir([ PathName '\Registered'] )
