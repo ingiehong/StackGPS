@@ -1,13 +1,13 @@
 function imageStack = tiffclassreader(fname, channels)
 % Simple TIF reader for Scanimage or Prarie 2P tif/tiff images/stacks
 %
-% fname = 'RR.tif';
+% fname = '2p_image_file.tif';
 % channels: if set as 0 then all channels are returned, otherwise channels
 %           defined are returned
 %
 % Ingie Hong, Johns Hopkins Medical Institute, 2016
 
-if isempty( regexp(fname,'ZSeries') ) || isempty( regexp(fname,'_Ch') )
+if isempty( regexp(fname,'ZSeries') ) || isempty( regexp(fname,'_Ch') )    % if not Prarie-style zstack file series...
 
     % for generic multi-stack tiffs
     info = imfinfo(fname);
@@ -27,6 +27,20 @@ if isempty( regexp(fname,'ZSeries') ) || isempty( regexp(fname,'_Ch') )
                 imageStack=permute(imageStack(:,:,channels,:),[1 2 4 5 3]); % permute to fit scimat specification
             end
         end
+    elseif ~isempty(strfind(info(1).Software, 'SI.VERSION_MAJOR'))
+        disp('Using Scanimage 2017 tif reader...')
+        [header,imageStack,imgInfo] = scanimage.util.opentif(fname); % For Scanimage 2017 files, open with scanimage.util.opentif
+        
+        if ndims(imageStack)>3 
+            if nargin<2
+                disp('Multicolor (or timelapse) image detected. Using first color only.')
+                imageStack=squeeze(imageStack(:,:,1,:)); 
+            else
+                if channels == 0; channels = 1:size(imageStack,3);end; % Load all channels
+                imageStack=permute(imageStack(:,:,channels,:),[1 2 4 5 3]); % permute to fit scimat specification
+            end
+        end        
+        
     else
         % For other TIFs, read with MATLAB TIFFclassreader
         disp('Using generic tif reader...')
