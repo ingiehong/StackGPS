@@ -7,7 +7,14 @@
 %
 % Ingie Hong, Johns Hopkins Medical Institute, 2016
 
+moving_image=[];
+fixed_image=[];
 % 3x zoom on 20x objective 
-[registered_image, moving_image, fixed_image, transformation, fit, movingFileName, fixedFileName ] = stackGPS_batch([], [],  [389/3/1024 389/3/1024 1 1 ] , [389/3/1024 389/3/1024 1 1] );
+moving_res=[389/3/1024 389/3/1024 1 1 ];
+fixed_res=[389/3/1024 389/3/1024 1 1 ];
+channels=0;
+use_highpassfilt=false;
+
+[registered_image, moving_image, fixed_image, transformation, fit, movingFileName, fixedFileName ] = stackGPS_batch( moving_image, fixed_image, moving_res, fixed_res, channels, use_highpassfilt);
 % 5x zoom on 40x objective of in vitro scope
 %[registered_image, moving_image, fixed_image, transformation, fit, movingFileName, fixedFileName ] = stackGPS_batch([], [],  [80/1024 80/1024 1 1 ] , [80/1024 80/1024 1 1] );
