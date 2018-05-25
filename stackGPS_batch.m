@@ -52,9 +52,11 @@ end
 % check for RESOLUTION info, if absent set as default
 if nargin < 3 || isempty(moving_res) 
     moving_res=ones(1,size(moving_image{1},5)+2 );
+    disp('No resolution information for moving image provided, using 1x1x1 pixels.')
 end
 if nargin < 4 || isempty(fixed_res) 
     fixed_res=ones(1,size(fixed_image{1},5)+2);
+    disp('No resolution information for moving image provided, using 1x1x1 pixels.')
 end
 
 mkdir([ PathName '\Registered'] )
