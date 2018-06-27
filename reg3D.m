@@ -7,7 +7,7 @@ function [transformation, fit, registered_image] = reg3D(fixed, target)
 %tic
 [execution_path,~,~] = fileparts( mfilename('fullpath') );
 options.verbose=false;
-if ndims(fixed.data)==5 % Mutlmodal or monomodal registration
+if ndims(fixed.data)==5 % Multimodal or monomodal registration
     [t, immreg, iterinfo] = elastix([execution_path '\Parameters_Rigid_3Dto3D_MultiChannel.txt'], fixed, target, options);
 else
     [t, immreg, iterinfo] = elastix([execution_path '\Parameters_Rigid_3Dto3D.txt'], fixed, target, options);
