@@ -311,13 +311,14 @@ function axes1_CreateFcn(hObject, eventdata, handles)
 
 % Hint: place code in OpeningFcn to populate axes1
 axes(hObject);
+bakTag = get(gca, 'Tag');
 h=imshow('BG.png');
 set(h, 'AlphaData', 1);
 text(60,200,'Fixed Image','backgroundcolor','none','FontSize',8,'parent',gca)
 text(60,400,'Moving Image','backgroundcolor','none','FontSize',8,'parent',gca)
 text(60,650,'          Pixel Size (Fixed)            Channel             Pixel Size (Moving)','backgroundcolor','none','FontSize',8,'parent',gca)
 text(60,700,'      X             Y             Z             (0=all)              X            Y             Z             ','backgroundcolor','none','FontSize',8,'parent',gca)
-
+set(gca, 'Tag', bakTag);
 
 % --- Executes during object creation, after setting all properties.
 function figure1_CreateFcn(hObject, eventdata, handles)
