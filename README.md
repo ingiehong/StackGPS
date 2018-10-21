@@ -14,18 +14,19 @@ required for alignment of the sample.
 **Installation**:
 
 	1. Install elastix v4.8 (http://elastix.isi.uu.nl/)
-	2. Install elastix wrapper (https://github.com/rcasero/gerardus but please use fork https://github.com/ingiehong/gerardus.git for compatibility)
+	2. Install elastix wrapper (https://github.com/rcasero/gerardus but please use fork https://github.com/ingiehong/gerardus.git for sustained compatibility)
 		(add ElastixToolbox and FileFormatToolbox to MATLAB path)
-                (set PATH or edit line 244 to elastix.m: comm = '"C:\Program Files\elastix_v4.8\elastix" ';)
+                (set PATH to Elastix folder or edit line 244 to elastix.m: comm = '"C:\Program Files\elastix_v4.8\elastix" ';)
 	3. Install StackGPS (add to MATLAB path)
-	4. If you need Scanimage TIF support, download scim_openTif.m from a release. (v3.8 supported)
+	4. If you need Scanimage TIF support, download scim_openTif.m and parseHeader.m from the 3.8 release or make scanimage.util.opentif available from later versions. 
 
 **Getting Started**:
 
-        1. Use demo_startGPS.m to quickly start aligning images.
+        0. Run stackGPS (without any arguments this function loads the GUI but it also can be used as the main command prompt function)
+		1. Use demo_startGPS.m script to quickly start aligning images.
         2. compare3D allows easy visualization of the 3D alignment.
-        3. When a reference image is already loaded, use demo_continueGPS.m to load just a moving image.
-        4. For batch registration of multiple moving images to one fixed image, start with demo_stackGPS_batch.m.
+        3. When a reference image is already loaded, use the demo_continueGPS.m script to load just a moving image.
+        4. For batch registration of multiple moving images to one fixed image, start with the demo_stackGPS_batch.m script.
         
 **App pseudocode**:
 
