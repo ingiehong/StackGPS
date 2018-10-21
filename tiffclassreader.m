@@ -28,7 +28,7 @@ if isempty( regexp(fname,'ZSeries') ) || isempty( regexp(fname,'_Ch') )    % if 
             end
         end
     elseif ~isempty(strfind(info(1).Software, 'SI.VERSION_MAJOR'))
-        disp('Using Scanimage 2017 tif reader...')
+        disp('Using Scanimage 4/5/2016/2017/2018 tif reader...')
         [header,imageStack,imgInfo] = scanimage.util.opentif(fname); % For Scanimage 2017 files, open with scanimage.util.opentif
         
         if ndims(imageStack)>3 

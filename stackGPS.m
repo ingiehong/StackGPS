@@ -18,6 +18,11 @@ function [ registered_image, moving_image, fixed_image, transformation, fit, mov
 % Suppress errors related to Scanimage tif files
 warning('off','MATLAB:imagesci:tiffmexutils:libtiffWarning');
 
+if nargin < 1 && nargout ==0
+    stackGPS_GUI; % If no arguments are supplied, load StackGPS GUI and stop.
+    return
+end
+
 if nargin < 5 || isempty(channels) 
     channels=1; % Default to channel 1
 end
@@ -85,7 +90,7 @@ if ndims(moving_image)>2
     if use_highpassfilt
         % Transform original image to get un-filtered&transformed image.
     end
-    visualize_tranformation(registered_image);
+    visualize_tranformation(registered_image, fixed_res);
     verbalize_tranformation(transformation);
 else 
     [registered_image, transformation, fit] = findposition2D( moving_image, fixed_image); % Find best matching slice and transformation and visualize
