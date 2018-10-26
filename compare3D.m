@@ -14,6 +14,7 @@ for i=1:size(registered_image,3)
     subplot(1,2,2)
     set(gca,'Position',[0.5 0 0.5 1])
     imshowpair(fixed_image(:,:,i)*scale_ratio,uint16(registered_image(:,:,i)), 'diff'); %, 'montage')
+    title(['Difference between two images. Z=' num2str(i)]) 
     pause;
 end
 
