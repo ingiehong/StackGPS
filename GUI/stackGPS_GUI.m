@@ -82,6 +82,11 @@ evalin('base','global sg;');
 
 sg.moving_image=[];
 sg.fixed_image=[];
+set(handles.edit1,'String', '0.1266');
+set(handles.edit2,'String', '0.1266');
+set(handles.edit4,'String', '0.1266');
+set(handles.edit5,'String', '0.1266');
+set(handles.edit7,'String', '2');
 sg.moving_res=[str2double(get(handles.edit4,'String')) str2double(get(handles.edit5,'String')) str2double(get(handles.edit6,'String')) 1];
 sg.fixed_res=[str2double(get(handles.edit1,'String')) str2double(get(handles.edit2,'String')) str2double(get(handles.edit3,'String')) 1];
 sg.channels=str2num(handles.edit7.String);
