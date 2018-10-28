@@ -7,7 +7,7 @@ function filtered_images = highpassfilt3(raw_image,sigma)
 % Ingie Hong, Johns Hopkins Medical Institute, 2016
 
 for i=1:size(raw_image,5)
-    smoothed_image = imgaussfilt3(raw_image(:,:,:,:,i),sigma);
+    smoothed_image = imgaussfilt3(raw_image(:,:,:,:,i),[sigma sigma sigma/10]);
     filtered_image = int16(raw_image(:,:,:,:,i))- int16(smoothed_image);
     filtered_images(:,:,:,:,i) = filtered_image - min(filtered_image(:));
 end
