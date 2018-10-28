@@ -154,7 +154,8 @@ global sg
 % GUI interface for selection of fixed image file. 
 
     [sg.fixedFileName sg.fixedPathName] = uigetfile('*.tif;*.tiff','Select the reference fixed image', sg.fixedPathName );
-
+    sg.movingFileName = sg.fixedFileName;
+    
     if ~isequal(sg.fixedFileName,0)
         sg.fixed_image = tiffclassreader(fullfile(sg.fixedPathName,sg.fixedFileName),sg.channels);
         if sg.use_highpassfilt
@@ -180,7 +181,8 @@ global sg
 % GUI interface for selection of moving image file. 
 
     [sg.movingFileName sg.movingPathName] = uigetfile('*.tif;*.tiff','Select the current moving image', sg.movingPathName);
-
+    sg.fixedFileName = sg.movingFileName;
+    
     if ~isequal(sg.movingFileName,0)
           sg.moving_image = tiffclassreader(fullfile(sg.movingPathName,sg.movingFileName),sg.channels);
           if sg.use_highpassfilt
