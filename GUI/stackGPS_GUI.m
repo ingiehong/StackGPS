@@ -80,13 +80,16 @@ sg=[];
 evalin('base','global sg;'); 
 %assignin('base', 'sg', [])
 
-sg.moving_image=[];
-sg.fixed_image=[];
+%% Some defaults
 set(handles.edit1,'String', '0.1266');
 set(handles.edit2,'String', '0.1266');
 set(handles.edit4,'String', '0.1266');
 set(handles.edit5,'String', '0.1266');
 set(handles.edit7,'String', '2');
+
+%% Initialize some settings
+sg.moving_image=[];
+sg.fixed_image=[];
 sg.moving_res=[str2double(get(handles.edit4,'String')) str2double(get(handles.edit5,'String')) str2double(get(handles.edit6,'String')) 1];
 sg.fixed_res=[str2double(get(handles.edit1,'String')) str2double(get(handles.edit2,'String')) str2double(get(handles.edit3,'String')) 1];
 sg.channels=str2num(handles.edit7.String);
@@ -96,6 +99,7 @@ sg.fixedPathName=pwd;
 sg.movingFileName='';
 sg.fixedFileName='';
 
+%% Move window to left top corner 
 movegui(handles.figure1, 'northwest')
 
 % UIWAIT makes stackGPS_GUI wait for user response (see UIRESUME)
