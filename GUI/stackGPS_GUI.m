@@ -157,21 +157,25 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 global sg
 % GUI interface for selection of fixed image file. 
 
-    [sg.fixedFileName sg.fixedPathName] = uigetfile('*.tif;*.tiff','Select the reference fixed image', sg.fixedPathName );
-    sg.movingFileName = sg.fixedFileName;
-    
-    if ~isequal(sg.fixedFileName,0)
-        sg.fixed_image = tiffclassreader(fullfile(sg.fixedPathName,sg.fixedFileName),sg.channels);
-        if sg.use_highpassfilt
-            disp('Highpass filtering to allow registration based on local features...')
-            sg.fixed_image_orig=sg.fixed_image;
-            sg.fixed_image = highpassfilt3(sg.fixed_image,50);   % highpass filtering to allow registration based on local features
-        end
-        handles.edit11.String = sg.fixedFileName; 
-        disp('Done loading target fixed image.')
-    else
-        warning('No target fixed image file.');
+[sg.fixedFileName sg.fixedPathName] = uigetfile('*.tif;*.tiff;*.czi','Select the reference fixed image', sg.fixedPathName );
+if isempty(sg.movingPathName) 
+    sg.movingPathName = sg.fixedPathName;
+end
+
+if ~isequal(sg.fixedFileName,0)
+    sg.fixed_image = tiffclassreader(fullfile(sg.fixedPathName,sg.fixedFileName),sg.channels);
+    if sg.use_highpassfilt
+        disp('Highpass filtering to allow registration based on local features...')
+        sg.fixed_image_orig=sg.fixed_image;
+        sg.fixed_image = highpassfilt3(sg.fixed_image,50);   % highpass filtering to allow registration based on local features
     end
+    handles.edit11.String = sg.fixedFileName; 
+    disp('Done loading target fixed image.')
+else
+    warning('No target fixed image file.');
+    sg.fixedPathName = [];
+    sg.movingFileName = [];
+end
     
     
 
@@ -184,21 +188,24 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 global sg
 % GUI interface for selection of moving image file. 
 
-    [sg.movingFileName sg.movingPathName] = uigetfile('*.tif;*.tiff','Select the current moving image', sg.movingPathName);
-    sg.fixedFileName = sg.movingFileName;
-    
-    if ~isequal(sg.movingFileName,0)
-          sg.moving_image = tiffclassreader(fullfile(sg.movingPathName,sg.movingFileName),sg.channels);
-          if sg.use_highpassfilt
-            disp('Highpass filtering to allow registration based on local features...')
-            sg.moving_image_orig=sg.moving_image;
-            sg.moving_image = highpassfilt3(sg.moving_image,50);  % highpass filtering to allow registration based on local features
-          end
-          handles.edit12.String = sg.movingFileName;
-          disp('Done loading moving image.')
-    else
-        warning('No moving file.');
-    end
+[sg.movingFileName sg.movingPathName] = uigetfile('*.tif;*.tiff;*.czi','Select the current moving image', sg.movingPathName);
+if isempty(sg.fixedPathName) 
+    sg.fixedPathName = sg.movingPathName;
+end
+if ~isequal(sg.movingFileName,0)
+      sg.moving_image = tiffclassreader(fullfile(sg.movingPathName,sg.movingFileName),sg.channels);
+      if sg.use_highpassfilt
+        disp('Highpass filtering to allow registration based on local features...')
+        sg.moving_image_orig=sg.moving_image;
+        sg.moving_image = highpassfilt3(sg.moving_image,50);  % highpass filtering to allow registration based on local features
+      end
+      handles.edit12.String = sg.movingFileName;
+      disp('Done loading moving image.')
+else
+    warning('No moving file.');
+    sg.fixedPathName = [];
+    sg.movingFileName = [];
+end
 
 
 % --- Executes during object creation, after setting all properties.
@@ -310,9 +317,20 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 disp('Starting registration...')
 global sg
 [sg.registered_image, sg.moving_image, sg.fixed_image, sg.transformation, sg.fit, sg.movingFileName, sg.fixedFileName ] = stackGPS( sg.moving_image, sg.fixed_image, sg.moving_res, sg.fixed_res, sg.channels, sg.use_highpassfilt);
-handles.edit13.String=round(100*sg.transformation(4)/100);
-handles.edit14.String=round(100*sg.transformation(5)/100);
-handles.edit15.String=round(100*sg.transformation(6)/100);
-handles.edit16.String=num2str(round(-10*sg.transformation(1)*360/pi/2)/10);
-handles.edit17.String=num2str(round(-10*sg.transformation(2)*360/pi/2)/10);
-handles.edit19.String=num2str(round(-10*sg.transformation(3)*360/pi/2)/10);
+if length(sg.transformation)==6
+    handles.edit13.String=round(100*sg.transformation(4)/100);
+    handles.edit14.String=round(100*sg.transformation(5)/100);
+    handles.edit15.String=round(100*sg.transformation(6)/100);
+    handles.edit16.String=num2str(round(-10*sg.transformation(1)*360/pi/2)/10);
+    handles.edit17.String=num2str(round(-10*sg.transformation(2)*360/pi/2)/10);
+    handles.edit19.String=num2str(round(-10*sg.transformation(3)*360/pi/2)/10);
+elseif length(sg.transformation)==3
+    handles.edit13.String=num2str(sg.transformation(2),3);
+    handles.edit14.String=num2str(sg.transformation(3),3);
+    handles.edit15.String=[];
+    handles.edit16.String=[]; 
+    handles.edit17.String=[];
+    handles.edit19.String=num2str((-sg.transformation(1)*360/pi/2),2);
+
+end
+    
