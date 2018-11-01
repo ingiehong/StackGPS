@@ -59,6 +59,10 @@ disp([num2str(min_fit_i) 'th slice of fixed reference image corresponds best to 
 disp(['Transformation X-Y (pixels): ' num2str(transformation(min_fit_i,2:3))]);
 disp(['Transformation Angle (deg): ' num2str(transformation(min_fit_i,1)*360/pi/2)])
 
+registered_image = registered_image(:,:,min_fit_i);
+transformation = transformation(min_fit_i,:);
+fit = fit(min_fit_i);
+
 clear h
 clear i
 
