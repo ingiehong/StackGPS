@@ -1,5 +1,5 @@
 # #
-# StackGPS v1.2 #
+# StackGPS v1.3 #
 ### Ingie Hong @ Johns Hopkins Medical Institute, 2017 ###
 ========================== 
 
@@ -13,17 +13,24 @@ required for alignment of the sample.
 
 **Installation**:
 
-	1. Install elastix v4.8 (http://elastix.isi.uu.nl/)
+	1. Install elastix v4.X (http://elastix.isi.uu.nl/)
 	2. Install elastix wrapper (https://github.com/rcasero/gerardus but please use fork https://github.com/ingiehong/gerardus.git for sustained compatibility)
 		(add ElastixToolbox and FileFormatToolbox to MATLAB path)
                 (set PATH to Elastix folder or edit line 244 to elastix.m: comm = '"C:\Program Files\elastix_v4.8\elastix" ';)
-	3. Install StackGPS (add to MATLAB path)
-	4. If you need Scanimage TIF support, download scim_openTif.m and parseHeader.m from the 3.8 release or make scanimage.util.opentif available from later versions. 
+	3. Install StackGPS (and add to MATLAB path)
+	4. If you need Scanimage TIF support, download scim_openTif.m and parseHeader.m from the 3.8 release or make scanimage.util.opentif available from later versions (http://scanimage.vidriotechnologies.com/display/SIH/ScanImage+Home).
+	5. For image file formats other than TIF, download OME BIO-FORMATS Matlab toolbox (https://www.openmicroscopy.org/bio-formats/) and add to MATLAB path.
 
 **Getting Started**:
 
         0. Run stackGPS (without any arguments this function loads the GUI but it also can be used as the main command prompt function)
-		1. Use demo_startGPS.m script to quickly start aligning images.
+	1. Set options including voxel size and high-pass filtering
+	2. Load fixed image and moving image to register
+	3. Press register button to initiate registration
+	4. Physically apply resulting shift recommendations and acquire another moving image. Go to 2 and repeat registration.
+	
+	- Alternative command-line workflow
+	1. Use demo_startGPS.m script to quickly start aligning images.
         2. compare3D allows easy visualization of the 3D alignment.
         3. When a reference image is already loaded, use the demo_continueGPS.m script to load just a moving image.
         4. For batch registration of multiple moving images to one fixed image, start with the demo_stackGPS_batch.m script.
@@ -44,12 +51,17 @@ required for alignment of the sample.
 	2. Tilt adjustment (3D to 3D fitting) (done in v1.1)
 	3. Multi-resolution image adaptation (done in v1.1)
 	4. Plots for fit
-	5. Automatic image header reading - for dimension/channel/XYZ spacing information etc.
+	5. Automatic image header reading - for dimension/channel/XYZ spacing information etc. (done in v1.3 through OME)
 	6. Option to use a subvolume of the reference image.
         7. Support for multi-channel image registration (done in v1.2)
+	8. Create GUI (done in v1.3) 
 
 **Updates**:
 
+	v1.3
+	-Added GUI
+	-Added image file compatibility through OME BIO-FORMATS
+	
 	v1.2 
 	-Added batch registration mode
 	-Added demo scripts and more documentation.
