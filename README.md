@@ -23,7 +23,7 @@ required for alignment of the sample.
 
 **Getting Started**:
 
-        0. Run stackGPS (without any arguments this function loads the GUI but it also can be used as the main command prompt function)
+	0. Run stackGPS (without any arguments this function loads the GUI but it also can be used as the main command prompt function)
 	1. Set options including voxel size and high-pass filtering
 	2. Load fixed image and moving image to register
 	3. Press register button to initiate registration
