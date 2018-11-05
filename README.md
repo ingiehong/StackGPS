@@ -31,9 +31,9 @@ required for alignment of the sample.
 	
 	- Alternative command-line workflow
 	1. Use demo_startGPS.m script to quickly start aligning images.
-        2. compare3D allows easy visualization of the 3D alignment.
-        3. When a reference image is already loaded, use the demo_continueGPS.m script to load just a moving image.
-        4. For batch registration of multiple moving images to one fixed image, start with the demo_stackGPS_batch.m script.
+ 	2. compare3D allows easy visualization of the 3D alignment.
+	3. When a reference image is already loaded, use the demo_continueGPS.m script to load just a moving image.
+	4. For batch registration of multiple moving images to one fixed image, start with the demo_stackGPS_batch.m script.
         
 **App pseudocode**:
 
