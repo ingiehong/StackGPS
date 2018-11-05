@@ -53,7 +53,7 @@ required for alignment of the sample.
 	4. Plots for fit
 	5. Automatic image header reading - for dimension/channel/XYZ spacing information etc. (done in v1.3 through OME)
 	6. Option to use a subvolume of the reference image.
-        7. Support for multi-channel image registration (done in v1.2)
+	7. Support for multi-channel image registration (done in v1.2)
 	8. Create GUI (done in v1.3) 
 
 **Updates**:
