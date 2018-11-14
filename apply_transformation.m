@@ -13,3 +13,4 @@ disp([ 'Original image dynamic range = ' num2str( [ min(target_image(:)) max(tar
 disp([ 'Transformed image dynamic range = ' num2str( [ min(transformed_image.data(:)) max(transformed_image.data(:))]) ]);
 [filepath,name,ext] = fileparts(target_FileName);
 save_tif(uint16(transformed_image.data), [filepath filesep name '_transformed.tif']  )
+disp(['Done transforming target image. Results saved as ' filepath filesep name '_transformed.tif'])
