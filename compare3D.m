@@ -1,3 +1,4 @@
+function compare3D(fixed_image,registered_image)
 
 % Use imshowpair to visualize registration results
 
