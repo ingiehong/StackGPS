@@ -53,13 +53,6 @@ function figure1_CreateFcn(hObject, eventdata, handles)
 
 %disp('Creating main GUI...')
 
-% Set StackGPS icon 
-try
-    warning('off','MATLAB:HandleGraphics:ObsoletedProperty:JavaFrame')
-    javaFrame = get(hObject,'JavaFrame');
-    javaFrame.setFigureIcon(javax.swing.ImageIcon('ICON.png'));
-end
-
 % --- Executes just before stackGPS_GUI is made visible.
 function stackGPS_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
@@ -99,8 +92,17 @@ sg.fixedPathName=pwd;
 sg.movingFileName='';
 sg.fixedFileName='';
 
-%% Move window to left top corner 
+% Move window to left top corner 
 movegui(handles.figure1, 'northwest')
+
+% Set StackGPS icon 
+try
+    warning('off','MATLAB:HandleGraphics:ObsoletedProperty:JavaFrame')
+    javaFrame = get(hObject,'JavaFrame');
+    javaFrame.setFigureIcon(javax.swing.ImageIcon([fileparts(which('stackGPS')) filesep 'GUI\ICON.png']));
+catch
+    disp('Failed to load window icon.')
+end
 
 % UIWAIT makes stackGPS_GUI wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
@@ -163,6 +165,7 @@ if isempty(sg.movingPathName)
 end
 
 if ~isequal(sg.fixedFileName,0)
+    handles.edit11.String = '';
     sg.fixed_image = tiffclassreader(fullfile(sg.fixedPathName,sg.fixedFileName),sg.channels);
     if sg.use_highpassfilt
         disp('Highpass filtering to allow registration based on local features...')
@@ -172,9 +175,9 @@ if ~isequal(sg.fixedFileName,0)
     handles.edit11.String = sg.fixedFileName; 
     disp('Done loading target fixed image.')
 else
-    warning('No target fixed image file.');
+    disp('No target fixed image file selected.');
     sg.fixedPathName = [];
-    sg.movingFileName = [];
+    sg.fixedFileName = [];
 end
     
     
@@ -193,6 +196,7 @@ if isempty(sg.fixedPathName)
     sg.fixedPathName = sg.movingPathName;
 end
 if ~isequal(sg.movingFileName,0)
+      handles.edit12.String = '';
       sg.moving_image = tiffclassreader(fullfile(sg.movingPathName,sg.movingFileName),sg.channels);
       if sg.use_highpassfilt
         disp('Highpass filtering to allow registration based on local features...')
@@ -202,8 +206,8 @@ if ~isequal(sg.movingFileName,0)
       handles.edit12.String = sg.movingFileName;
       disp('Done loading moving image.')
 else
-    warning('No moving file.');
-    sg.fixedPathName = [];
+    disp('No moving image file selected.');
+    sg.movingPathName = [];
     sg.movingFileName = [];
 end
 
@@ -316,7 +320,7 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 disp('Starting registration...')
 global sg
-[sg.registered_image, sg.moving_image, sg.fixed_image, sg.transformation, sg.fit, sg.movingFileName, sg.fixedFileName ] = stackGPS( sg.moving_image, sg.fixed_image, sg.moving_res, sg.fixed_res, sg.channels, sg.use_highpassfilt);
+[sg.registered_image, sg.moving_image, sg.fixed_image, sg.transformation, sg.fit, ~, ~, sg.t ] = stackGPS( sg.moving_image, sg.fixed_image, sg.moving_res, sg.fixed_res, sg.channels, sg.use_highpassfilt);
 if length(sg.transformation)==6
     handles.edit13.String=round(100*sg.transformation(4)/100);
     handles.edit14.String=round(100*sg.transformation(5)/100);

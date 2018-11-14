@@ -1,4 +1,4 @@
-function [transformation, fit, registered_image] = reg3D(fixed, target)
+function [transformation, fit, registered_image, t] = reg3D(fixed, target)
 % reg3D is a wrapper for ELASTIX for 3D-to-3D registration
 % Given two 3D matrix images (fixed, target) it finds a Euler transfomation
 % that minimizes a fit function through ELASTIX registration.
