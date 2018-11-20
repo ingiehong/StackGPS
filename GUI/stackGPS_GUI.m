@@ -22,7 +22,7 @@ function varargout = stackGPS_GUI(varargin)
 
 % Edit the above text to modify the response to help stackGPS_GUI
 
-% Last Modified by GUIDE v2.5 20-Oct-2018 23:43:45
+% Last Modified by GUIDE v2.5 16-Nov-2018 15:09:24
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -338,3 +338,14 @@ elseif length(sg.transformation)==3
 
 end
     
+
+
+% --- Executes on button press in pushbutton5.
+function pushbutton5_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+disp('Starting movie visualization...')
+global sg
+visualize3D(sg.fixed_image,sg.registered_image)

@@ -1,26 +1,36 @@
-function visualize3D(img1,img2)
+function visualize3D(img1, img2, ignore)
+% Shows alignment of to images in a z_axis movie format
 % img1 = fixed_image.data
+% img2 = registered_moving_image.data
+% ignore = percentage of brightest and darkest pixels to ignore to enhance
+% image contrast
+%
 % i.e. one can run:
 % visualize3d(fixed_image.data,registered_image)
+% 
+% Ingie Hong, Johns Hopkins Medical Institute, 2018
 
-[py,px,pz] = size(img1);
+if nargin < 2 || isempty(img2) 
+    img2=img1; % Default to just displaying img1
+end
 
-%img = zeros(py,px,pz,3);
+if nargin < 3 || isempty(ignore) 
+    ignore=0.5; % Default to ignoring 0.5% of histogram
+end
 
-%img(:,:,:,1) = img1;
-%img(:,:,:,2) = img2;
-%img1 = double( img1-min(img1(:)) )/ double(max(img1(:))-min(img1(:)) );
-%img2 = double( img2-min(img2(:)) )/ double(max(img2(:))-min(img2(:)) );
+[py,px,pz,~,~] = size(img1);
+
+% Enhance contrast based on value 'ignore(%)'
+img1 = ( img1-prctile(img1(:),ignore) )* ( intmax(class(img1)) / (prctile(img1(:),100-ignore)-prctile(img1(:),ignore) ) );
+img2 = ( img2-prctile(img2(:),ignore) )* ( intmax(class(img2)) / (prctile(img2(:),100-ignore)-prctile(img2(:),ignore) ) );
+
 warning('off','images:initSize:adjustingMag')
 figure;
 for i = 1:pz
-    %image(squeeze(img(:,:,i,:))); 
-    imshowpair(img1(:,:,i,1,1),img2(:,:,i,1,1),'falsecolor','Scaling','independent');
-    title(['Green - Fixed image, Magenta - Registered moving image  Frame:' num2str(i)])
-    temp_img2 = img2(:,:,i,1,1);
-    %cscale =  255 * double( [prctile(temp_img2(:),10)  prctile(temp_img2(:),90)] )/ double(max(img2(:)))
-    cscale = [5 45]; 
-    caxis(cscale);
+    im=imshowpair(img1(:,:,i,1,1),img2(:,:,i,1,1),'falsecolor','Scaling','independent');
+    title(['Green - Fixed image, Magenta - Registered moving image  Frame: ' num2str(i) ' of ' num2str(pz)])
+    % Alternative (slower) method to enhance contrast
+    %im.CData = (im.CData - prctile(im.CData(:), 1)) * (255 / (prctile(im.CData(:), 99) - prctile(im.CData(:), 1)));
     axis image;  
     pause(0.1)
 end
