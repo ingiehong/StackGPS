@@ -22,7 +22,7 @@ function varargout = stackGPS_GUI(varargin)
 
 % Edit the above text to modify the response to help stackGPS_GUI
 
-% Last Modified by GUIDE v2.5 20-Nov-2018 12:13:22
+% Last Modified by GUIDE v2.5 21-Nov-2018 16:33:06
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -161,9 +161,6 @@ global sg
 % GUI interface for selection of fixed image file. 
 
 [sg.fixedFileName sg.fixedPathName] = uigetfile('*.tif;*.tiff;*.czi','Select the reference fixed image', sg.fixedPathName );
-if isempty(sg.movingPathName) 
-    sg.movingPathName = sg.fixedPathName;
-end
 
 if ~isequal(sg.fixedFileName,0)
     handles.edit11.String = '';
@@ -175,7 +172,7 @@ if ~isequal(sg.fixedFileName,0)
     end
     handles.edit11.String = sg.fixedFileName; 
     imagesizetext = num2str([size(sg.fixed_image,1) size(sg.fixed_image,2) size(sg.fixed_image,3) size(sg.fixed_image,5)]);
-    sg.handles.axes1.Children(6).String = ['Fixed Image  (Dimensions: ' imagesizetext ')' ];
+    sg.handles.axes1.Children(6).String = ['Fixed Image     (Dimensions: ' imagesizetext ')' ];
     disp('Done loading target fixed image.')
 else
     disp('No target fixed image file selected.');
@@ -183,7 +180,10 @@ else
     sg.fixedFileName = [];
     sg.handles.axes1.Children(6).String = 'Fixed Image';
 end
-    
+
+if isempty(sg.movingPathName)
+    sg.movingPathName = sg.fixedPathName;
+end    
     
 
 % --- Executes on button press in pushbutton2.
@@ -196,9 +196,7 @@ global sg
 % GUI interface for selection of moving image file. 
 
 [sg.movingFileName sg.movingPathName] = uigetfile('*.tif;*.tiff;*.czi','Select the current moving image', sg.movingPathName);
-if isempty(sg.fixedPathName) 
-    sg.fixedPathName = sg.movingPathName;
-end
+
 if ~isequal(sg.movingFileName,0)
     handles.edit12.String = '';
     sg.moving_image = tiffclassreader(fullfile(sg.movingPathName,sg.movingFileName),sg.channels);
@@ -217,7 +215,9 @@ else
     sg.movingFileName = [];
     sg.handles.axes1.Children(5).String = 'Moving Image';
 end
-
+if isempty(sg.fixedPathName) 
+    sg.fixedPathName = sg.movingPathName;
+end
 
 % --- Executes during object creation, after setting all properties.
 function axes1_CreateFcn(hObject, eventdata, handles)
@@ -320,6 +320,7 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+disp('Currently disabled.')
 
 % --- Executes on button press in pushbutton4.
 function pushbutton4_Callback(hObject, eventdata, handles)
@@ -345,7 +346,7 @@ elseif length(sg.transformation)==3
     handles.edit19.String=num2str((-sg.transformation(1)*360/pi/2),2);
 
 end
-    
+disp('Done!')    
 
 
 % --- Executes on button press in pushbutton5.
@@ -361,7 +362,7 @@ try
 catch
     errordlg('Images not found. Please load images and register first.','No Image Error');
 end
-
+disp('Done!')
 
 % --- Executes on button press in pushbutton6.
 function pushbutton6_Callback(hObject, eventdata, handles)
@@ -376,3 +377,16 @@ try
 catch
     errordlg('Images and transformation not found. Please load images and register first.','No Image or Transformation Error');
 end
+disp('Done!')
+
+% --- Executes on button press in pushbutton7.
+function pushbutton7_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+disp('Saving registered moving image...')
+global sg
+[~,name,~] = fileparts(sg.movingFileName);
+save_tif(uint16(sg.registered_image), [sg.movingPathName filesep name '_registered.tif']  )
+disp('Done!')
