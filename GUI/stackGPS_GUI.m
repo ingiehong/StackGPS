@@ -87,8 +87,8 @@ sg.moving_res=[str2double(get(handles.edit4,'String')) str2double(get(handles.ed
 sg.fixed_res=[str2double(get(handles.edit1,'String')) str2double(get(handles.edit2,'String')) str2double(get(handles.edit3,'String')) 1];
 sg.channels=str2num(handles.edit7.String);
 sg.use_highpassfilt=handles.checkbox1.Value;
-sg.movingPathName=pwd;
-sg.fixedPathName=pwd;
+sg.movingPathName='';
+sg.fixedPathName='';
 sg.movingFileName='';
 sg.fixedFileName='';
 
