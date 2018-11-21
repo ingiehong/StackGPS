@@ -22,7 +22,7 @@ function varargout = stackGPS_GUI(varargin)
 
 % Edit the above text to modify the response to help stackGPS_GUI
 
-% Last Modified by GUIDE v2.5 16-Nov-2018 15:09:24
+% Last Modified by GUIDE v2.5 20-Nov-2018 12:13:22
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -104,6 +104,7 @@ catch
     disp('Failed to load window icon.')
 end
 
+sg.handles = handles; 
 % UIWAIT makes stackGPS_GUI wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
@@ -173,11 +174,14 @@ if ~isequal(sg.fixedFileName,0)
         sg.fixed_image = highpassfilt3(sg.fixed_image,50);   % highpass filtering to allow registration based on local features
     end
     handles.edit11.String = sg.fixedFileName; 
+    imagesizetext = num2str([size(sg.fixed_image,1) size(sg.fixed_image,2) size(sg.fixed_image,3) size(sg.fixed_image,5)]);
+    sg.handles.axes1.Children(6).String = ['Fixed Image  (Dimensions: ' imagesizetext ')' ];
     disp('Done loading target fixed image.')
 else
     disp('No target fixed image file selected.');
     sg.fixedPathName = [];
     sg.fixedFileName = [];
+    sg.handles.axes1.Children(6).String = 'Fixed Image';
 end
     
     
@@ -196,19 +200,22 @@ if isempty(sg.fixedPathName)
     sg.fixedPathName = sg.movingPathName;
 end
 if ~isequal(sg.movingFileName,0)
-      handles.edit12.String = '';
-      sg.moving_image = tiffclassreader(fullfile(sg.movingPathName,sg.movingFileName),sg.channels);
-      if sg.use_highpassfilt
+    handles.edit12.String = '';
+    sg.moving_image = tiffclassreader(fullfile(sg.movingPathName,sg.movingFileName),sg.channels);
+    if sg.use_highpassfilt
         disp('Highpass filtering to allow registration based on local features...')
         sg.moving_image_orig=sg.moving_image;
         sg.moving_image = highpassfilt3(sg.moving_image,50);  % highpass filtering to allow registration based on local features
-      end
-      handles.edit12.String = sg.movingFileName;
-      disp('Done loading moving image.')
+    end
+    handles.edit12.String = sg.movingFileName;
+    imagesizetext = num2str([size(sg.moving_image,1) size(sg.moving_image,2) size(sg.moving_image,3) size(sg.moving_image,5)]);
+    sg.handles.axes1.Children(5).String = ['Moving Image  (Dimensions: ' imagesizetext ')' ];
+    disp('Done loading moving image.')
 else
     disp('No moving image file selected.');
     sg.movingPathName = [];
     sg.movingFileName = [];
+    sg.handles.axes1.Children(5).String = 'Moving Image';
 end
 
 
@@ -221,17 +228,18 @@ function axes1_CreateFcn(hObject, eventdata, handles)
 % Hint: place code in OpeningFcn to populate axes1
 
 % Draw background and generate transparent text labels
+
 axes(hObject);
 bakTag = get(gca, 'Tag');
 h=imshow('BG.png');
 set(h, 'AlphaData', 1);
-text(60,200,'Fixed Image','backgroundcolor','none','FontSize',8,'parent',gca)
-text(60,400,'Moving Image','backgroundcolor','none','FontSize',8,'parent',gca)
-text(60,650,'          Pixel Size (Fixed)            Channel             Pixel Size (Moving)','backgroundcolor','none','FontSize',8,'parent',gca)
-text(60,700,'      X             Y             Z             (0=all)              X            Y             Z             ','backgroundcolor','none','FontSize',8,'parent',gca)
+text1 = text(110,200,'Fixed Image','backgroundcolor','none','FontSize',8,'parent',gca);
+text2 = text(110,400,'Moving Image','backgroundcolor','none','FontSize',8,'parent',gca);
+text(60,650,'          Pixel Size (Fixed)          Channel             Pixel Size (Moving)','backgroundcolor','none','FontSize',8,'parent',gca)
+text(60,700,'      X             Y             Z           (0=all)              X            Y             Z             ','backgroundcolor','none','FontSize',8,'parent',gca)
 
-text(60,1050,'              Linear Offset                                           Euler Angle Offset  ','backgroundcolor','none','FontSize',8,'parent',gca)
-text(60,1100,'      X             Y             Z                                     X            Y             Z             ','backgroundcolor','none','FontSize',8,'parent',gca)
+text(60,950,'              Linear Offset                                         Euler Angle Offset  ','backgroundcolor','none','FontSize',8,'parent',gca)
+text(60,1000,'      X             Y             Z                                   X            Y             Z             ','backgroundcolor','none','FontSize',8,'parent',gca)
 
 set(gca, 'Tag', bakTag);
 
@@ -318,7 +326,7 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton4 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-disp('Starting registration...')
+disp('Starting registration (this may take several minutes depending on image size)...')
 global sg
 [sg.registered_image, sg.moving_image, sg.fixed_image, sg.transformation, sg.fit, ~, ~, sg.t ] = stackGPS( sg.moving_image, sg.fixed_image, sg.moving_res, sg.fixed_res, sg.channels, sg.use_highpassfilt);
 if length(sg.transformation)==6
@@ -348,4 +356,23 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 
 disp('Starting movie visualization...')
 global sg
-visualize3D(sg.fixed_image,sg.registered_image)
+try 
+    visualize3D(sg.fixed_image,sg.registered_image, 0.5, sg.channels)
+catch
+    errordlg('Images not found. Please load images and register first.','No Image Error');
+end
+
+
+% --- Executes on button press in pushbutton6.
+function pushbutton6_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+disp('Applying found transformation to current moving image...')
+global sg
+try 
+    [transformed_image, target_image] = apply_transformation(fullfile(sg.movingPathName,sg.movingFileName), 2, sg.moving_res, sg.t, sg.moving_image);
+catch
+    errordlg('Images and transformation not found. Please load images and register first.','No Image or Transformation Error');
+end
