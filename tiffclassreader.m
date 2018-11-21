@@ -21,7 +21,7 @@ switch ext
             numberOfImages = length(info);
             %[info(1).Width info(1).Height numberOfImages]
 
-            if ~isempty(strfind(info(1).ImageDescription, 'state'))
+            if isfield(info(1), 'ImageDescription') && ~isempty(strfind(info(1).ImageDescription, 'state'))
                 disp('Using Scanimage 3.X tif reader...')
                 [header,imageStack] = scim_openTif(fname); % For Scanimage 3.X files, open with scim_openTif
 
