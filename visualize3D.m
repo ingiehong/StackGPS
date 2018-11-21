@@ -1,4 +1,4 @@
-function visualize3D(img1, img2, ignore)
+function visualize3D(img1, img2, ignore, channel)
 % Shows alignment of to images in a z_axis movie format
 % img1 = fixed_image.data
 % img2 = registered_moving_image.data
@@ -18,16 +18,29 @@ if nargin < 3 || isempty(ignore)
     ignore=0.5; % Default to ignoring 0.5% of histogram
 end
 
+if nargin < 4 || isempty(channel) 
+    channel = 1; % Default to first channel if no input 
+else 
+    if channel == 0
+        channel = 1; % Default to first channel if all ch 
+    end 
+    if channel > size(img1,5) || channel > size(img2,5)
+        channel = 1; % If designated channel not present, default to first channel 
+    end
+end
+
 [py,px,pz,~,~] = size(img1);
 
 % Enhance contrast based on value 'ignore(%)'
-img1 = ( img1-prctile(img1(:),ignore) )* ( intmax(class(img1)) / (prctile(img1(:),100-ignore)-prctile(img1(:),ignore) ) );
-img2 = ( img2-prctile(img2(:),ignore) )* ( intmax(class(img2)) / (prctile(img2(:),100-ignore)-prctile(img2(:),ignore) ) );
+img1_midsection = img1(:,:,round(pz/2));
+img2_midsection = img2(:,:,round(pz/2));
+img1 = ( img1-prctile(img1_midsection(:),ignore) )* ( intmax(class(img1_midsection)) / (prctile(img1_midsection(:),100-ignore)-prctile(img1_midsection(:),ignore) ) );
+img2 = ( img2-prctile(img2_midsection(:),ignore) )* ( intmax(class(img2_midsection)) / (prctile(img2_midsection(:),100-ignore)-prctile(img2_midsection(:),ignore) ) );
 
 warning('off','images:initSize:adjustingMag')
 figure;
 for i = 1:pz
-    im=imshowpair(img1(:,:,i,1,1),img2(:,:,i,1,1),'falsecolor','Scaling','independent');
+    im=imshowpair(img1(:,:,i,1,channel),img2(:,:,i,1,channel),'falsecolor','Scaling','independent');
     title(['Green - Fixed image, Magenta - Registered moving image  Frame: ' num2str(i) ' of ' num2str(pz)])
     % Alternative (slower) method to enhance contrast
     %im.CData = (im.CData - prctile(im.CData(:), 1)) * (255 / (prctile(im.CData(:), 99) - prctile(im.CData(:), 1)));
