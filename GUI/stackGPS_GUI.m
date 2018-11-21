@@ -179,6 +179,7 @@ else
     sg.fixedPathName = [];
     sg.fixedFileName = [];
     sg.handles.axes1.Children(6).String = 'Fixed Image';
+    handles.edit11.String = [];
 end
 
 if isempty(sg.movingPathName)
@@ -214,6 +215,7 @@ else
     sg.movingPathName = [];
     sg.movingFileName = [];
     sg.handles.axes1.Children(5).String = 'Moving Image';
+    handles.edit12.String = [];
 end
 if isempty(sg.fixedPathName) 
     sg.fixedPathName = sg.movingPathName;
@@ -336,14 +338,14 @@ if length(sg.transformation)==6
     handles.edit15.String=round(100*sg.transformation(6)/100);
     handles.edit16.String=num2str(round(-10*sg.transformation(1)*360/pi/2)/10);
     handles.edit17.String=num2str(round(-10*sg.transformation(2)*360/pi/2)/10);
-    handles.edit19.String=num2str(round(-10*sg.transformation(3)*360/pi/2)/10);
+    handles.edit18.String=num2str(round(-10*sg.transformation(3)*360/pi/2)/10);
 elseif length(sg.transformation)==3
     handles.edit13.String=num2str(sg.transformation(2),3);
     handles.edit14.String=num2str(sg.transformation(3),3);
     handles.edit15.String=[];
     handles.edit16.String=[]; 
     handles.edit17.String=[];
-    handles.edit19.String=num2str((-sg.transformation(1)*360/pi/2),2);
+    handles.edit18.String=num2str((-sg.transformation(1)*360/pi/2),2);
 
 end
 disp('Done!')    
