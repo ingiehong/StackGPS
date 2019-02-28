@@ -1,7 +1,6 @@
-# #
+![StackGPS screenshot](GUI/StackGPS_screenshot.jpg)
 # StackGPS v1.3 #
 ### Ingie Hong @ Johns Hopkins Medical Institute, 2017 ###
-========================== 
 
 For the rigid registration of 2D or 3D image stacks and visualization of the results.
 Particularly useful when trying to keep a microscopic sample in identical 
@@ -10,13 +9,14 @@ A reference image (either 2D or 3D z-stack) taken on the first day will allow
 accurate registration of subsequent day images, and guide the movement/rotation
 required for alignment of the sample.
 
+Sister hardware designs for rodent head fixation rigs are available: [Go^2-stages on Github](https://github.com/ingiehong/Gogo-stages)
 
 **Installation**:
 
 	1. Install elastix v4.X (http://elastix.isi.uu.nl/)
+		(set PATH to elastix folder, and check accessibility to elastix and transformix at command prompt)
 	2. Install elastix wrapper (https://github.com/rcasero/gerardus but please use fork https://github.com/ingiehong/gerardus.git for sustained compatibility)
 		(add ElastixToolbox and FileFormatToolbox to MATLAB path)
-                (set PATH to Elastix folder or edit line 244 to elastix.m: comm = '"C:\Program Files\elastix_v4.8\elastix" ';)
 	3. Install StackGPS (and add to MATLAB path)
 	4. If you need Scanimage TIF support, download scim_openTif.m and parseHeader.m from the 3.8 release or make scanimage.util.opentif available from later versions (http://scanimage.vidriotechnologies.com/display/SIH/ScanImage+Home).
 	5. For image file formats other than TIF, download OME BIO-FORMATS Matlab toolbox (https://www.openmicroscopy.org/bio-formats/) and add to MATLAB path.
