@@ -1,4 +1,4 @@
-function [ registered_image, moving_image, fixed_image, transformation, fit, movingFileName, fixedFileName, t ] = stackGPS( moving_image, fixed_image, moving_res, fixed_res, channels, use_highpassfilt)
+function [ registered_image, moving_image, fixed_image, transformation, fit, movingFileName, fixedFileName, t ] = stackGPS( moving_image, fixed_image, moving_res, fixed_res, channels, use_highpassfilt, bVerbose)
 % Load two image files, (2D->2D, pseudo2D->3D, or 3D to 3D) and align them using rigid
 % transformation. Output X,Y,Z,rotational offsets to aid physical adjustment of specimen to same position.
 %
@@ -31,6 +31,10 @@ if nargin < 6 || isempty(use_highpassfilt)
     use_highpassfilt=false; % Default to not using highpassfiltering
 end
 
+if nargin < 7 || isempty(bVerbose) 
+    bVerbose=false;
+end
+
 PathName='';
 movingFileName='';
 fixedFileName='';
@@ -50,7 +54,10 @@ if nargin < 1 || isempty(moving_image)
         error('No moving file.');
     end
     
-else 
+else
+    if channels ~= 0
+        moving_image = moving_image(:,:,:,channels);
+    end
     disp('Proceeding with provided moving image.')
 end
 
@@ -69,7 +76,10 @@ if nargin < 2 || isempty(fixed_image)
         error('No target fixed image file.');
     end
     
-else 
+else
+    if channels ~= 0
+        fixed_image = fixed_image(:,:,:,channels);
+    end
     disp('Proceeding with provided fixed image. ')
 end
 %disp('Done loading images')
@@ -86,12 +96,13 @@ end
 
 %if ndims(fixed_image)==3 && ndims(moving_image)==3
 if ndims(moving_image)>2
-    [registered_image, transformation, fit, t] = findposition3D( moving_image, fixed_image, moving_res, fixed_res); % Register 3D->3D to find best matching transformation and visualize
+    [registered_image, transformation, fit, t] = findposition3D( moving_image, fixed_image, moving_res, fixed_res, bVerbose); % Register 3D->3D to find best matching transformation and visualize
     if use_highpassfilt
         % Transform original image to get un-filtered&transformed image.
     end
     visualize_tranformation(registered_image, fixed_res);
     verbalize_tranformation(transformation);
 else 
-    [registered_image, transformation, fit] = findposition2D( moving_image, fixed_image); % Find best matching slice and transformation and visualize
+    [registered_image, transformation, fit] = findposition2D( moving_image, fixed_image, bVerbose); % Find best matching slice and transformation and visualize
+    t=[];
 end
