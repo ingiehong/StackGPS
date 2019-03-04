@@ -22,7 +22,7 @@ function varargout = stackGPS_GUI(varargin)
 
 % Edit the above text to modify the response to help stackGPS_GUI
 
-% Last Modified by GUIDE v2.5 21-Nov-2018 16:33:06
+% Last Modified by GUIDE v2.5 04-Mar-2019 15:33:08
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -78,7 +78,7 @@ set(handles.edit1,'String', '0.1266');
 set(handles.edit2,'String', '0.1266');
 set(handles.edit4,'String', '0.1266');
 set(handles.edit5,'String', '0.1266');
-set(handles.edit7,'String', '2');
+%set(handles.edit7,'String', '2');
 
 %% Initialize some settings
 sg.moving_image=[];
@@ -160,25 +160,31 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 global sg
 % GUI interface for selection of fixed image file. 
 
-[sg.fixedFileName sg.fixedPathName] = uigetfile('*.tif;*.tiff;*.czi','Select the reference fixed image', sg.fixedPathName );
+[sg.fixedFileName sg.fixedPathName] = uigetfile('*.tif;*.tiff;*.czi;*.xml','Select the reference fixed image', sg.fixedPathName );
 
 if ~isequal(sg.fixedFileName,0)
     handles.edit11.String = '';
-    sg.fixed_image = tiffclassreader(fullfile(sg.fixedPathName,sg.fixedFileName),sg.channels);
+    [sg.fixed_image, pixel_size] = tiffclassreader(fullfile(sg.fixedPathName,sg.fixedFileName),sg.channels);
     if sg.use_highpassfilt
         disp('Highpass filtering to allow registration based on local features...')
         sg.fixed_image_orig=sg.fixed_image;
         sg.fixed_image = highpassfilt3(sg.fixed_image,50);   % highpass filtering to allow registration based on local features
     end
-    handles.edit11.String = sg.fixedFileName; 
+    if ~isempty(pixel_size) % If pixel size is returned, reflect in settings
+        sg.fixed_res = pixel_size;
+        handles.edit1.String = num2str(pixel_size(1));
+        handles.edit2.String = num2str(pixel_size(2));
+        handles.edit3.String = num2str(pixel_size(3));
+    end
+    handles.edit11.String = sg.fixedFileName;
     imagesizetext = num2str([size(sg.fixed_image,1) size(sg.fixed_image,2) size(sg.fixed_image,3) size(sg.fixed_image,5)]);
-    sg.handles.axes1.Children(6).String = ['Fixed Image     (Dimensions: ' imagesizetext ')' ];
+    sg.handles.axes1.Children(8).String = ['Fixed Image     (Dimensions: ' imagesizetext ')' ];
     disp('Done loading target fixed image.')
 else
     disp('No target fixed image file selected.');
     sg.fixedPathName = [];
     sg.fixedFileName = [];
-    sg.handles.axes1.Children(6).String = 'Fixed Image';
+    sg.handles.axes1.Children(8).String = 'Fixed Image';
     handles.edit11.String = [];
 end
 
@@ -196,25 +202,31 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 global sg
 % GUI interface for selection of moving image file. 
 
-[sg.movingFileName sg.movingPathName] = uigetfile('*.tif;*.tiff;*.czi','Select the current moving image', sg.movingPathName);
+[sg.movingFileName sg.movingPathName] = uigetfile('*.tif;*.tiff;*.czi;*.xml','Select the current moving image', sg.movingPathName);
 
 if ~isequal(sg.movingFileName,0)
     handles.edit12.String = '';
-    sg.moving_image = tiffclassreader(fullfile(sg.movingPathName,sg.movingFileName),sg.channels);
+    [sg.moving_image, pixel_size] = tiffclassreader(fullfile(sg.movingPathName,sg.movingFileName),sg.channels);
     if sg.use_highpassfilt
         disp('Highpass filtering to allow registration based on local features...')
         sg.moving_image_orig=sg.moving_image;
         sg.moving_image = highpassfilt3(sg.moving_image,50);  % highpass filtering to allow registration based on local features
     end
+    if ~isempty(pixel_size) % If pixel size is returned, reflect in settings
+        sg.moving_res = pixel_size;
+        handles.edit4.String = num2str(pixel_size(1));
+        handles.edit5.String = num2str(pixel_size(2));
+        handles.edit6.String = num2str(pixel_size(3));
+    end
     handles.edit12.String = sg.movingFileName;
     imagesizetext = num2str([size(sg.moving_image,1) size(sg.moving_image,2) size(sg.moving_image,3) size(sg.moving_image,5)]);
-    sg.handles.axes1.Children(5).String = ['Moving Image  (Dimensions: ' imagesizetext ')' ];
+    sg.handles.axes1.Children(7).String = ['Moving Image  (Dimensions: ' imagesizetext ')' ];
     disp('Done loading moving image.')
 else
     disp('No moving image file selected.');
     sg.movingPathName = [];
     sg.movingFileName = [];
-    sg.handles.axes1.Children(5).String = 'Moving Image';
+    sg.handles.axes1.Children(7).String = 'Moving Image';
     handles.edit12.String = [];
 end
 if isempty(sg.fixedPathName) 
@@ -240,9 +252,12 @@ text2 = text(110,400,'Moving Image','backgroundcolor','none','FontSize',8,'paren
 text(60,650,'          Pixel Size (Fixed)          Channel             Pixel Size (Moving)','backgroundcolor','none','FontSize',8,'parent',gca)
 text(60,700,'      X             Y             Z           (0=all)              X            Y             Z             ','backgroundcolor','none','FontSize',8,'parent',gca)
 
-text(60,950,'              Linear Offset                                         Euler Angle Offset  ','backgroundcolor','none','FontSize',8,'parent',gca)
-text(60,1000,'      X             Y             Z                                   X            Y             Z             ','backgroundcolor','none','FontSize',8,'parent',gca)
+text(60,1100,'              Linear Offset                                         Euler Angle Offset  ','backgroundcolor','none','FontSize',8,'parent',gca)
+text(60,1150,'      X             Y             Z                                   X            Y             Z             ','backgroundcolor','none','FontSize',8,'parent',gca)
 
+hold on
+plot([200 1600], [980 980], 'k')
+text(60,980,'Results','backgroundcolor','none','FontSize',8,'parent',gca)
 set(gca, 'Tag', bakTag);
 
 
@@ -331,7 +346,7 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 disp('Starting registration (this may take several minutes depending on image size)...')
 global sg
-[sg.registered_image, sg.moving_image, sg.fixed_image, sg.transformation, sg.fit, ~, ~, sg.t ] = stackGPS( sg.moving_image, sg.fixed_image, sg.moving_res, sg.fixed_res, sg.channels, sg.use_highpassfilt);
+[sg.registered_image, ~, ~, sg.transformation, sg.fit, ~, ~, sg.t ] = stackGPS( sg.moving_image, sg.fixed_image, sg.moving_res, sg.fixed_res, sg.channels, sg.use_highpassfilt, handles.checkbox2.Value);
 if length(sg.transformation)==6
     handles.edit13.String=round(100*sg.transformation(4)/100);
     handles.edit14.String=round(100*sg.transformation(5)/100);
@@ -392,3 +407,51 @@ global sg
 [~,name,~] = fileparts(sg.movingFileName);
 save_tif(uint16(sg.registered_image), [sg.movingPathName filesep name '_registered.tif']  )
 disp('Done!')
+
+
+% --- Executes on button press in pushbutton8.
+function pushbutton8_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+global sg
+temp.image = sg.moving_image;
+sg.moving_image = sg.fixed_image;
+sg.fixed_image = temp.image;
+
+temp.res = sg.moving_res;
+sg.moving_res = sg.fixed_res;
+sg.fixed_res = temp.res;
+
+handles.edit1.String = num2str(sg.fixed_res(1));
+handles.edit2.String = num2str(sg.fixed_res(2));
+handles.edit3.String = num2str(sg.fixed_res(3));
+
+handles.edit4.String = num2str(sg.moving_res(1));
+handles.edit5.String = num2str(sg.moving_res(2));
+handles.edit6.String = num2str(sg.moving_res(3));
+
+imagesizetext = num2str([size(sg.fixed_image,1) size(sg.fixed_image,2) size(sg.fixed_image,3) size(sg.fixed_image,5)]);
+sg.handles.axes1.Children(8).String = ['Fixed Image     (Dimensions: ' imagesizetext ')' ];
+imagesizetext = num2str([size(sg.moving_image,1) size(sg.moving_image,2) size(sg.moving_image,3) size(sg.moving_image,5)]);
+sg.handles.axes1.Children(7).String = ['Moving Image  (Dimensions: ' imagesizetext ')' ];    
+    
+temp.PathName = sg.movingPathName;
+sg.movingPathName = sg.fixedPathName;
+sg.fixedPathName = temp.PathName;
+
+temp.FileName = sg.movingFileName;
+sg.movingFileName = sg.fixedFileName;
+sg.fixedFileName = temp.FileName;
+
+handles.edit12.String = sg.movingFileName;
+handles.edit11.String = sg.fixedFileName;
+
+% --- Executes on button press in checkbox2.
+function checkbox2_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox2
