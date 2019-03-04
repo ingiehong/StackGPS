@@ -1,4 +1,4 @@
-function [registered_image, transformation, fit] = findposition2D( moving_image, fixed_image)
+function [registered_image, transformation, fit] = findposition2D( moving_image, fixed_image, bVerbose)
 % findposition2D.m : matches moving_image (2D) to individual stacks of 
 % fixed_image (2D or 3D) with rigid registration and finds best fit &
 % transformation.
@@ -18,7 +18,7 @@ for i=1:size(fixed_image,3)
     waitbar(i/size(fixed_image,3),h,sprintf('Registering individual stacks...%d of %d', i, size(fixed_image,3)));
     
     % Execute registration through Elastix wrapper from Oxford
-    [transformation(i,:), fit(i), registered_image(:,:,i)] = reg2D(fixed_image(:,:,i), moving_image);
+    [transformation(i,:), fit(i), registered_image(:,:,i)] = reg2D(fixed_image(:,:,i), moving_image, bVerbose);
 
     %Plot results
     subplot(2,2,1)

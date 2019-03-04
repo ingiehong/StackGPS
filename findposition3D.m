@@ -1,4 +1,4 @@
-function [registered_image, transformation, fit, t] = findposition3D( moving_image, fixed_image, moving_res, fixed_res)
+function [registered_image, transformation, fit, t] = findposition3D( moving_image, fixed_image, moving_res, fixed_res, bVerbose)
 % findposition3D() : matches moving_image (3D) to fixed_image (3D) 
 % with rigid registration and finds best fit & transformation.
 % 
@@ -21,7 +21,7 @@ end
     
 % Execute registration through Elastix wrapper from Oxford
 disp('3D Registration initiated...')
-[transformation, fit, registered_image, t] = reg3D(fixed_image, moving_image);
+[transformation, fit, registered_image, t] = reg3D(fixed_image, moving_image, bVerbose);
 
 if scaled_down == true
     registered_image = uint16(registered_image) * 3;
