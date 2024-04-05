@@ -11,8 +11,9 @@ required for alignment of the sample.
 
 Sister hardware designs for rodent head fixation rigs are available: [Go^2-stages on Github](https://github.com/ingiehong/Gogo-stages)
 
-**Installation**:
+**Installation**: 
 
+0. Works on Windows 10/11, Matlab 2017-2023. Installation should take less than 20 minutes.
 1. Install elastix v4.X (http://elastix.isi.uu.nl/)
 	(set PATH to elastix folder, and check accessibility to elastix and transformix at command prompt)
 2. Install elastix wrapper (https://github.com/rcasero/gerardus but please use fork https://github.com/ingiehong/gerardus.git for sustained compatibility)
@@ -26,7 +27,7 @@ Sister hardware designs for rodent head fixation rigs are available: [Go^2-stage
 0. Run stackGPS (without any arguments this function loads the GUI but it also can be used as the main command prompt function)
 1. Set options including voxel size and high-pass filtering
 2. Load fixed image and moving image to register
-3. Press register button to initiate registration
+3. Press register button to initiate registration (Results should be visible in GUI like above and in text in command line)
 4. Physically apply resulting shift recommendations and acquire another moving image. Go to 2 and repeat registration.
 
 - Alternative command-line workflow
