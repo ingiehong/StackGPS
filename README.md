@@ -14,7 +14,7 @@ Sister hardware designs for rodent head fixation rigs are available: [Go^2-stage
 **Installation**: 
 
 0. Works on Windows 10/11, Matlab 2017-2023. Installation should take less than 20 minutes.
-1. Install elastix v4.X (http://elastix.isi.uu.nl/)
+1. Install elastix v4.X (https://github.com/SuperElastix/elastix/releases)
 	(set PATH to elastix folder, and check accessibility to elastix and transformix at command prompt)
 2. Install elastix wrapper (https://github.com/rcasero/gerardus but please use fork https://github.com/ingiehong/gerardus.git for sustained compatibility)
 	(add ElastixToolbox and FileFormatToolbox to MATLAB path)
