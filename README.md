@@ -15,11 +15,11 @@ Sister hardware designs for rodent head fixation rigs are available: [Go^2-stage
 
 0. Works on Windows 10/11, Matlab 2017-2023. Installation should take less than 20 minutes.
 1. Install elastix v4.X (https://github.com/SuperElastix/elastix/releases)
-	(set PATH to elastix folder, and check accessibility to elastix and transformix at command prompt)
+	(add elastix.exe folder to PATH in Windows System Properties -> Environment Variables panel, and check accessibility to elastix.exe and transformix.exe at command prompt)
 2. Install elastix wrapper (https://github.com/rcasero/gerardus but please use fork https://github.com/ingiehong/gerardus.git for sustained compatibility)
-	(add ElastixToolbox and FileFormatToolbox to MATLAB path)
-3. Install StackGPS (download and add to MATLAB path)
-4. If you need Scanimage TIF support, download scim_openTif.m and parseHeader.m from the 3.8 release or make scanimage.util.opentif available from later versions (http://scanimage.vidriotechnologies.com/display/SIH/ScanImage+Home).
+	(add matlab/ElastixToolbox and matlab/FileFormatToolbox to MATLAB path)
+3. Install StackGPS (download and add folder and GUI subfolder to MATLAB path)
+4. If you need Scanimage TIF support, download scim_openTif.m and parseHeader.m from the 3.8 release or make scanimage.util.opentif available from later versions (https://docs.scanimage.org/About/Download%2BScanImage.html).
 5. For image file formats other than TIF, download OME BIO-FORMATS Matlab toolbox (https://www.openmicroscopy.org/bio-formats/) and add to MATLAB path.
 
 **Getting Started**:
